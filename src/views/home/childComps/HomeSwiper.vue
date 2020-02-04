@@ -1,8 +1,8 @@
 <template>
-  <swiper v-if="banners.length > 1">
+  <swiper v-if="banners.length > 0">
     <swiper-item v-for="(item, index) in banners" :key="index">
-      <a :href="item.link">
-        <img :src="item.image" alt="">
+      <a :href="item.link" >
+        <img :src="item.image" alt="" @load="swiperImageLoad">
       </a>
     </swiper-item>
   </swiper> 
@@ -19,9 +19,23 @@ export default {
       }
     }
   },
+  data() {
+    return {
+      isLoad: false
+    }
+  },
   components: {
     Swiper,
     SwiperItem
+  },
+  methods: {
+    swiperImageLoad() {
+      if (!this.isLoad) {
+        this.$emit('swiperImageLoad')
+        this.isLoad = true;
+      }
+      
+    }
   }
 }
 </script>

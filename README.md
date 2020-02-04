@@ -66,5 +66,25 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
         非父子间通信   用事件总线Vue.prototype.$bus = new Vue()  this.$bus.$emit('事件',参数) this.$bus.$on('事件', (参数) => {})
       解决频繁调用   进行防抖操作
 19. 完成上拉加载更多
-    
-
+20. tabControl的吸顶效果
+      获取tabControl的offsetTop   在updated钩子函数里获取    也可以监听图片加载完成后
+      监听滚动，动态改变tabControl的样式
+      动态改变tabControl问题？ 
+       1. 下面的商品内容，会突然上移
+       2. tabControl虽然设置了fixed，但也会随着better-scroll一起滚出去了
+      其他方案解决停留问题
+        在最上面多复制了一份tabControl组件，将其隐藏，利用它实现停留效果
+        当用户滚动到一定位置时，tabControl显示出来
+21. 让Home保持原来的状态
+      即home不被销毁  keep-alive
+      让home中的内容保持原来的位置
+        离开时保存位置信息saveY，进来时将位置设置为saveY (回来时最好进行一次刷新)
+22. 跳转详情页并携带iid
+     用动态路由 还可以用query方式
+23. 导航栏的封装
+24. 数据请求以及轮播图的展示(轮播图源码有点问题class类名)
+25. 商品信息的基本展示
+      数据很复杂，使用集合到一起创建类，简化
+26. 店铺信息的基本展示
+27. 商品详情数据的展示
+28. 

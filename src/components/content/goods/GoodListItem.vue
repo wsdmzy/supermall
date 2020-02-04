@@ -1,5 +1,5 @@
 <template>
-  <div class="goods-item">
+  <div class="goods-item" @click="itemClick">
     <img :src="goodsItem.show.img" alt="" @load="imageLoad">
     <div class="goods-info">
       <p>{{goodsItem.title}}</p>
@@ -23,12 +23,17 @@ export default {
     imageLoad() {
       // console.log('imageLoad');
       this.$bus.$emit('itemImageLoad')
+    },
+    itemClick() {
+      // console.log('+++')
+      this.$router.push('/detail/' + this.goodsItem.iid)
+      // this.$router.push('/profile')
     }
   }
 }
 </script>
 
-<style>
+<style >
   .goods-item {
     padding-bottom: 40px;
     position: relative;
@@ -44,9 +49,9 @@ export default {
   .goods-info {
     font-size: 12px;
     position: absolute;
-    bottom: 5px;
     left: 0;
     right: 0;
+    bottom: 5px;
     overflow: hidden;
     text-align: center;
   }
