@@ -30,7 +30,7 @@ import NavBar  from 'components/common/navbar/NavBar'
 import Scroll  from 'components/common/scroll/Scroll'
 import TabControl from 'components/content/tabControl/TabControl'
 import GoodsList from 'components/content/goods/GoodsList'
-import BackTop from 'components/content/backTop/BackTop'
+
 
 
 import HomeSwiper from './childComps/HomeSwiper'
@@ -40,6 +40,7 @@ import FeatureView from './childComps/FeatureView'
 import {getHomeMultidata, getHomeGoods} from 'network/home'
 import {debounce} from 'common/util'
 
+import {backTopMixin} from 'common/mixin'
 
 export default {
   components: {
@@ -47,13 +48,14 @@ export default {
     Scroll,
     TabControl,
     GoodsList,
-    BackTop,
+  
 
     HomeSwiper,
     RecommendView,
     FeatureView,
     
   },
+  mixins: [backTopMixin],
   data() {
     return {
       banners: [],
@@ -64,7 +66,7 @@ export default {
         'sell': {page: 0, list: []},
       },
       currentType: 'pop',
-      isShowBackTop: false,
+      
       tabOffsetTop: 0,
       isTapFixed: false,
       saveY: 0
@@ -134,13 +136,11 @@ export default {
       this.$refs.tabControl2.currentIndex = index;
       // console.log(this.$refs.tabControl2)
     },
-    backClick() {
-      this.$refs.scroll.scrollTo(0,0);
-    },
+ 
     contentScroll(position) {
       // console.log(position);
       // 判断BackTop是否显示
-      this.isShowBackTop = -position.y > 1000
+      this.listenBackTop(position)
 
       // 决定tabControl是否吸顶(position: fixed)？ 是否显示
       this.isTapFixed = -position.y > this.tabOffsetTop
@@ -153,6 +153,7 @@ export default {
       // 所有组件都有$el：用于获取组件中的元素
       // console.log(this.$refs.tabControl.$el.offsetTop)
       this.tabOffsetTop = this.$refs.tabControl2.$el.offsetTop;
+      // console.log(this.tabOffsetTop)
     },
     /**
      * 网络请求相关的

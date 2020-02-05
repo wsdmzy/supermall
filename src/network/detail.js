@@ -42,3 +42,9 @@ export class GoodsParam {
     this.sizes = rule.tables;
   }
 }
+
+export function getRecommend() {
+  return request({
+    url: '/recommend'
+  })
+}
