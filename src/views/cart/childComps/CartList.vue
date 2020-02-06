@@ -33,7 +33,7 @@ export default {
     position: fixed;
     overflow: hidden;
     top: 44px;
-    bottom: 49px;
+    bottom: 89px;
     right: 0;
     left: 0;
   }

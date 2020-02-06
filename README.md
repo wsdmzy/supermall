@@ -109,4 +109,30 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
       物品个数
       用了mapGetters辅助函数  将store中的getter映射到局部计算属性中
 36. 购物车商品列表的展示
-      
+37. item的选中与不选中
+      修改模型对象来改变状态
+38. 底部工具的封装
+39. 全选按钮
+    灵活运用js高阶函数
+40. 添加购物车弹窗
+      Actions可以返回一个Promise
+      mapActions的映射关系
+41. Toast封装
+      可以普通方式封装  但太麻烦了
+      插件方式封装(造轮子)
+
+
+
+
+### 补充
+  1. 解决移动端300ms的延迟
+    FastClick 安装 导入 调用attach
+  2. 图片懒加载
+      图片需要显示在屏幕上时，图片再加载
+      安装 导入 Vue.use()  修改img :src -> v-lazy
+  3. css单位转化插件
+    postcss-px-to-viewport
+    安装  在postcss.config.js配置
+  4. nginx(软件/反向代理)
+    1. 将自己电脑作为服务器 window -> nginx
+    2. 

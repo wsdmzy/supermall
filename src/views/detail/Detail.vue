@@ -17,10 +17,12 @@
     </scroll>
     <back-top @click.native="backClick" v-show="isShowBackTop"/>
     <detail-bottom-bar @addCart="addToCart"></detail-bottom-bar>
+    <!-- <toast :message="message" :show="show" /> -->
   </div>
 </template>
 <script>
 import Scroll from 'components/common/scroll/Scroll'
+// import Toast from 'components/common/toast/Toast'
 import GoodsList from 'components/content/goods/GoodsList'
 
 import DetailNavBar from './childComps/DetailNavBar'
@@ -36,10 +38,13 @@ import {getDetail, Goods, Shop, GoodsParam, getRecommend} from 'network/detail'
 import {debounce} from 'common/util'
 import {backTopMixin} from 'common/mixin'
 
+import {mapActions} from 'vuex'
+
 export default {
   name: 'Detail',
   components: {
     Scroll,
+    // Toast,
     GoodsList,
 
     DetailNavBar,
@@ -64,7 +69,9 @@ export default {
       recommends: [],
       themeTopY: [],
       getThemeTopY: null,
-      currentIndex: 0
+      currentIndex: 0,
+      // message: '',
+      // show: false
     }
   },
   created() {
@@ -140,6 +147,7 @@ export default {
   //   console.log('++++')
   // },
   methods: {
+    ...mapActions(['addCart']),
     imageLoad() {
       this.$refs.scroll.refresh()
       this.getThemeTopY()
@@ -177,9 +185,22 @@ export default {
       product.price = this.goods.realPrice;
       
       // console.log(product);
-      // 2. 将商品添加购物车
+      // 2. 将商品添加购物车(1. Promise 2. mapActions)
+      this.addCart(product).then(res => {
+        this.show = true;
+        this.message = res;
+
+        // setTimeout(() => {
+        //   this.show = false
+        // }, 1500)
+        // console.log(this.$toast)
+        this.$toast.show(res)
+        
+      })
+
       // this.$store.commit('addCart', product)
-      this.$store.dispatch('addCart', product)
+      // this.$store.dispatch('addCart', product).then(res => console.log(res))
+            
     }
   }
 }

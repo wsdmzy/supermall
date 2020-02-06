@@ -10,7 +10,8 @@ export default {
     isChecked: {
       type: Boolean,
       default: false
-    }
+    },
+    
   }
 }
 </script>
