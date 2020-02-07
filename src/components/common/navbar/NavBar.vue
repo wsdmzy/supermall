@@ -12,7 +12,7 @@ export default {
 }
 </script>
 
-<style>
+<style >
   .nav-bar {
     display: flex;
     height: 44px;

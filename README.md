@@ -18,6 +18,7 @@ yarn build
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
+### 步骤
 1. 划分目录结构
 2. css文件的引入和定义初始css
 3. 配置别名和代码风格 vue.config.js  .editorconfig
@@ -135,4 +136,12 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
     安装  在postcss.config.js配置
   4. nginx(软件/反向代理)
     1. 将自己电脑作为服务器 window -> nginx
-    2. 
+    2. 远程部署到服务器
+### 面试题
+  1. 如何理解Vue生命周期
+  2. 如何进行非父子组件通信
+  3. Vue响应式原理
+      不要认为数据发生改变，界面跟着更新，并不是理所当然(内部做了很多复杂操作)
+      new Vue()  Observer会监听所有的data属性 并且给他们创建一一对应的Dep对象
+                 Compile 会解析模板中指令(同时也会将界面初始化) 一个指令就创建一个Watcher对象 然后添加到相对应的Dep对象的订阅中 绑定更新函数 
+                 如果一个属性的value发生改变 Observer就会通知所对应的Dep对象调用notify()通知所有的订阅者 更新界面

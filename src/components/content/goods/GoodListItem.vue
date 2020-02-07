@@ -21,7 +21,16 @@ export default {
   },
   computed: {
     showImage() {
-      return this.goodsItem.image || this.goodsItem.show.img
+      // console.log(this.goodsItem);
+      return this.goodsItem.img || this.goodsItem.image || this.goodsItem.show.img
+      //  if (this.goodsItem.image) {
+      //    return this.goodsItem.image
+      //  } else if (this.goodsItem.show.img) {
+      //    this.goodsItem.show.img
+      //  } else if (this.goodsItem.img) {
+      //    this.goodsItem.img
+      //  }
+
     }
   },
   methods: {
