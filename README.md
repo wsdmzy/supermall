@@ -121,6 +121,10 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 41. Toast封装
       可以普通方式封装  但太麻烦了
       插件方式封装(造轮子)
+42. 分类页面
+    导航栏的封装  菜单栏的封装  分类详情的封装(网格视图)  商品列表
+43. 我的页面
+      用到svg
 
 
 

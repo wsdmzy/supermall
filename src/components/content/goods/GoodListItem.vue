@@ -40,6 +40,8 @@ export default {
         this.$bus.$emit('itemImageLoad')
       } else if (this.$route.path.indexOf('/detail')) {
         this.$bus.$emit('itemImageLoad')
+      }  else if (this.$route.path.indexOf('/categrory')) {
+        this.$bus.$emit('itemImageLoad')
       }
       
     },

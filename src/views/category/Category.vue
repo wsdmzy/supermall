@@ -1,13 +1,17 @@
 <template>
   <div id="category">
     <nav-bar class="nav-bar"><div slot="center">商品分类</div></nav-bar>
+    <tab-control :titles="['流行', '新款', '精选']" @tabClick="tabClick" v-show="isShowTab" ref="tab1" class="tab"></tab-control>
     <div class="content">
       <tab-menu :list="list" @selectItem="selectItem" />
-      <scroll class="tab-content">
+      <scroll class="tab-content" 
+              @scroll="contentscroll" :probeType="3"
+              ref="scroll">
         <tab-content-category :subcategories="showSubcategories"></tab-content-category>
-        <tab-control :titles="['流行', '新款', '精选']" @tabClick="tabClick"></tab-control>
+        <tab-control :titles="['流行', '新款', '精选']" @tabClick="tabClick" ref="tab2"></tab-control>
         <content-detail :contentdetail="showContentDetail" ></content-detail>
       </scroll>
+      <back-top @click.native="backClick" v-show="isShowBackTop"/>
     </div>
   </div>
 </template>
@@ -24,6 +28,9 @@ import ContentDetail from './childComps/ContentDetail'
 
 import {getCategory, getSubcategory, getCategoryDetail} from 'network/category'
 
+import {debounce} from 'common/util'
+import {backTopMixin} from 'common/mixin'
+
 export default {
   components: {
     NavBar,
@@ -35,6 +42,7 @@ export default {
     TabContentCategory,
     ContentDetail
   },
+  mixins: [backTopMixin],
   data() {
     return {
       list: [],
@@ -42,7 +50,10 @@ export default {
       currentIndex: -1,
       // type: 'pop'
       // detail: []
-      currentType: 'pop'
+      currentType: 'pop',
+      isShowTab: false,
+      tabOffsetTop: 0,
+      saveY: 0
     }
   },
   computed: {
@@ -58,6 +69,30 @@ export default {
   created() {
     //请求数据
     this._getCategory()
+  },
+  mounted() {
+    const refresh = debounce(this.$refs.scroll.refresh, 200);
+    this.$bus.$on('itemImageLoad', () => {
+      refresh();
+    })
+  },
+  activated() {
+    // console.log(this.saveY)
+    this.$refs.scroll.refresh();
+    this.$refs.scroll.scrollTo(0, this.saveY, 0)
+    
+  },
+  deactivated() {
+    // 记录离开的位置
+    this.saveY = this.$refs.scroll.getScrollY();
+    // console.log('de' + this.saveY)
+  },
+  updated() {
+    // 获取tabControl的offsetTop
+    // 所有组件都有$el：用于获取组件中的元素
+    // console.log(this.$refs.tab.$el.offsetTop)
+    this.tabOffsetTop = this.$refs.tab2.$el.offsetTop;
+    // console.log(this.tabOffsetTop)
   },
   methods: {
     /**
@@ -109,6 +144,8 @@ export default {
         this.categoryData[this.currentIndex].categoryDetail[type] = res
         this.categoryData = {...this.categoryData}
       })
+
+      
     },
     /**
      * 监听事件
@@ -122,6 +159,15 @@ export default {
         case 1: this.currentType = 'new'; break;
         case 2: this.currentType = 'sell'; break;  
       }
+      this.$refs.tab1.currentIndex = index;
+      this.$refs.tab2.currentIndex = index;
+    },
+    contentscroll(position) {
+      // console.log(option)
+      // 判断tabcontrol是否显示
+      this.isShowTab = -position.y > this.tabOffsetTop
+
+      this.listenBackTop(position);
     }
   }
 }
@@ -144,5 +190,14 @@ export default {
     bottom: 49px;
     left: 100px;
     right: 0;
+  }
+
+  .tab{
+    position: fixed;
+    top: 44px;
+    right: 0;
+    left: 100px;
+
+    z-index: 9;
   }
 </style>
